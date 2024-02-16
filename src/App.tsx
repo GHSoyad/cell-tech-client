@@ -1,11 +1,10 @@
-import { Container } from "@mui/material"
+import { RouterProvider } from "react-router-dom"
+import MainRoute from "./routes/MainRoute"
 
 function App() {
 
   return (
-    <Container>
-      Test This is material ui page.
-    </Container>
+    <RouterProvider router={MainRoute} />
   )
 }
 
