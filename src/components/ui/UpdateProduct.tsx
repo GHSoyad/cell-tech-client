@@ -4,9 +4,10 @@ import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } fro
 import { TransitionProps } from "@mui/material/transitions";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment, { MomentInput } from "moment";
-import { useCreateProductMutation } from "../../redux/features/product/productApi";
+import { useUpdateProductMutation } from "../../redux/features/product/productApi";
 import toast from "react-hot-toast";
 import Loader from "../shared/Loader";
+import { IProduct } from "../../types/productTypes";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -27,30 +28,32 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-interface IAddProductProps {
+interface IUpdateProductProps {
   open: boolean,
   setOpen: Dispatch<SetStateAction<boolean>>,
+  modifyProduct: IProduct | undefined
 }
 
 
-const AddProduct = ({ open, setOpen }: IAddProductProps) => {
+const UpdateProduct = ({ open, setOpen, modifyProduct }: IUpdateProductProps) => {
   const [productData, setProductData] = useState({
-    name: "",
-    brand: "",
-    model: "",
-    price: "",
-    quantity: "",
-    release_date: "",
-    operating_system: "",
-    storage_capacity: "",
-    ram_capacity: "",
-    screen_size: "",
-    camera_quality: "",
-    battery_capacity: "",
-    image: "",
+    _id: modifyProduct?._id,
+    name: modifyProduct?.name,
+    brand: modifyProduct?.brand,
+    model: modifyProduct?.model,
+    price: modifyProduct?.price,
+    quantity: modifyProduct?.quantity,
+    release_date: modifyProduct?.release_date,
+    operating_system: modifyProduct?.operating_system,
+    storage_capacity: modifyProduct?.storage_capacity,
+    ram_capacity: modifyProduct?.ram_capacity,
+    screen_size: modifyProduct?.screen_size,
+    camera_quality: modifyProduct?.camera_quality,
+    battery_capacity: modifyProduct?.battery_capacity,
+    image: modifyProduct?.image,
   })
 
-  const [createPost, { isLoading }] = useCreateProductMutation();
+  const [updateProduct, { isLoading }] = useUpdateProductMutation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,7 +78,7 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data: any = await createPost(productData);
+    const data: any = await updateProduct({ ...productData });
 
     if (data?.data?.success) {
       toast.success(data?.data?.message);
@@ -103,7 +106,7 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
       }}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Add New Product
+        Update Product
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -270,6 +273,7 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
             <DatePicker
               name="release_date"
               label="Release Date"
+              value={moment(productData.release_date)}
               onChange={(e: MomentInput) =>
                 setProductData(prevData => (
                   {
@@ -301,11 +305,11 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
         </>
       </DialogContent>
       <DialogActions>
-        <Button type="submit" disabled={isLoading}>Add</Button>
+        <Button type="submit" disabled={isLoading}>Submit</Button>
         <Button onClick={handleClose}>Cancel</Button>
       </DialogActions>
     </BootstrapDialog>
   );
 }
 
-export default AddProduct;
+export default UpdateProduct;

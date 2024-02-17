@@ -12,4 +12,5 @@ export interface IProduct {
   screen_size: number;
   camera_quality: number;
   battery_capacity: number;
+  image: string;
 }

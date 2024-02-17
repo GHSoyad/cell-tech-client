@@ -16,9 +16,24 @@ export const productApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["products"],
+    }),
+    updateProduct: builder.mutation({
+      query: ({ _id, ...data }) => ({
+        url: `/phone/${_id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ["products"],
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/phone/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ["products"],
     })
   }),
 })
 
 // Auto-generated hooks based on the defined endpoints for usage in functional components
-export const { useGetProductsQuery, useCreateProductMutation } = productApi;
+export const { useGetProductsQuery, useCreateProductMutation, useUpdateProductMutation, useDeleteProductMutation } = productApi;

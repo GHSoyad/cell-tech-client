@@ -4,16 +4,33 @@ import ProductCard from "../components/ui/ProductCard"
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import AddProduct from "../components/ui/AddProduct";
+import UpdateProduct from "../components/ui/UpdateProduct";
+import { IProduct } from "../types/productTypes";
+import DeleteProduct from "../components/ui/DeleteProduct";
 
 
 const Products = () => {
-  const [open, setOpen] = useState(false);
   const { data: products, isLoading } = useGetProductsQuery(undefined, { refetchOnMountOrArgChange: true });
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [modifyProduct, setModifyProduct] = useState<IProduct>();
+
+  const handleAddOpen = () => {
+    setOpenAddModal(true);
   };
 
+  const handleModifyOpen = (id: string, action: string) => {
+    const findProduct = products?.find(product => product._id === id);
+    setModifyProduct(findProduct);
+
+    if (action.toLowerCase() === "update") {
+      setOpenUpdateModal(true);
+    } else if (action.toLowerCase() === "delete") {
+      setOpenDeleteModal(true);
+    }
+  };
 
   return (
     <>
@@ -21,7 +38,7 @@ const Products = () => {
         <Typography variant="h5" sx={{ fontWeight: "bold" }}>
           Products
         </Typography>
-        <Button variant="contained" size="medium" endIcon={<AddIcon />} onClick={handleClickOpen}>
+        <Button variant="contained" size="medium" endIcon={<AddIcon />} onClick={handleAddOpen}>
           New Product
         </Button>
       </Box>
@@ -40,7 +57,11 @@ const Products = () => {
                   <Grid container rowSpacing={[1, 2]} sx={{ position: "relative" }}>
                     {
                       products?.map(product => (
-                        <ProductCard key={product._id} product={product} />
+                        <ProductCard
+                          key={product._id}
+                          product={product}
+                          handleModifyOpen={handleModifyOpen}
+                        />
                       ))
                     }
                   </Grid>
@@ -51,12 +72,23 @@ const Products = () => {
       </Box>
 
       {
-        open ?
-          <AddProduct open={open} setOpen={setOpen} />
+        openAddModal ?
+          <AddProduct open={openAddModal} setOpen={setOpenAddModal} />
           :
           null
       }
-
+      {
+        openUpdateModal ?
+          <UpdateProduct open={openUpdateModal} setOpen={setOpenUpdateModal} modifyProduct={modifyProduct} />
+          :
+          null
+      }
+      {
+        openDeleteModal ?
+          <DeleteProduct open={openDeleteModal} setOpen={setOpenDeleteModal} modifyProduct={modifyProduct} />
+          :
+          null
+      }
     </>
   );
 };

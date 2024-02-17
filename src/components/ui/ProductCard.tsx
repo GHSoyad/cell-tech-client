@@ -1,10 +1,18 @@
-import { Box, Card, CardContent, CardMedia, Fab, Grid, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { IProduct } from "../../types/productTypes";
-import { MoreVert } from "@mui/icons-material";
 import img from "../../assets/images/product-thumbnail.webp"
+import Dropdown from "../shared/Dropdown";
 
-const ProductCard = ({ product }: { product: IProduct }) => {
-  const { name, brand, quantity, price } = product;
+interface IProductCard {
+  product: IProduct,
+  handleModifyOpen: (id: string, action: string) => void
+}
+
+
+const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
+  const { _id, name, brand, quantity, price } = product;
+
+
   return (
     <Grid item xs={12} >
       <Card sx={{ display: 'flex', alignItems: 'center' }}>
@@ -30,9 +38,12 @@ const ProductCard = ({ product }: { product: IProduct }) => {
             </Typography>
           </Box>
         </CardContent>
-        <Fab variant="circular" size="small" color="primary" sx={{ mr: 2 }}>
-          <MoreVert />
-        </Fab>
+        <Dropdown
+          options={[
+            { id: _id, name: "Update", action: handleModifyOpen },
+            { id: _id, name: "Delete", action: handleModifyOpen },
+          ]}
+        />
       </Card>
     </Grid >
   );
