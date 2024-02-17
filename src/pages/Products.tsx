@@ -1,17 +1,30 @@
-import { Box, Card, CircularProgress, Divider, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, CircularProgress, Divider, Grid, Typography } from "@mui/material";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
-import ProductCard from "../components/ui/ProductCard";
+import ProductCard from "../components/ui/ProductCard"
+import AddIcon from '@mui/icons-material/Add';
+import { useState } from "react";
+import AddProduct from "../components/ui/AddProduct";
 
 
 const Products = () => {
+  const [open, setOpen] = useState(false);
+  const { data: products, isLoading } = useGetProductsQuery(undefined, { refetchOnMountOrArgChange: true });
 
-  const { data: products, isLoading } = useGetProductsQuery();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
 
   return (
     <>
-      <Typography variant="h4" mb={1}>
-        Products
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          Products
+        </Typography>
+        <Button variant="contained" size="medium" endIcon={<AddIcon />} onClick={handleClickOpen}>
+          New Product
+        </Button>
+      </Box>
       <Divider />
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} columnSpacing={[2, 3]} mt={1}>
@@ -36,6 +49,13 @@ const Products = () => {
           </Grid>
         </Grid>
       </Box>
+
+      {
+        open ?
+          <AddProduct open={open} setOpen={setOpen} />
+          :
+          null
+      }
 
     </>
   );
