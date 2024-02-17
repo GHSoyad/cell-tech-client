@@ -7,6 +7,7 @@ import AddProduct from "../components/ui/AddProduct";
 import UpdateProduct from "../components/ui/UpdateProduct";
 import { IProduct } from "../types/productTypes";
 import DeleteProduct from "../components/ui/DeleteProduct";
+import SellProduct from "../components/ui/SellProduct";
 
 
 const Products = () => {
@@ -15,6 +16,7 @@ const Products = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openSellModal, setOpenSellModal] = useState(false);
   const [modifyProduct, setModifyProduct] = useState<IProduct>();
 
   const handleAddOpen = () => {
@@ -27,8 +29,12 @@ const Products = () => {
 
     if (action.toLowerCase() === "update") {
       setOpenUpdateModal(true);
-    } else if (action.toLowerCase() === "delete") {
+    }
+    else if (action.toLowerCase() === "delete") {
       setOpenDeleteModal(true);
+    }
+    else if (action.toLowerCase() === "sell") {
+      setOpenSellModal(true);
     }
   };
 
@@ -56,13 +62,12 @@ const Products = () => {
                   :
                   <Grid container rowSpacing={[1, 2]} sx={{ position: "relative" }}>
                     {
-                      products?.map(product => (
-                        <ProductCard
-                          key={product._id}
-                          product={product}
-                          handleModifyOpen={handleModifyOpen}
-                        />
-                      ))
+                      (products as IProduct[])?.reduce((acc: JSX.Element[], product: IProduct) => {
+                        if (product.status || product.stock > 0) {
+                          acc.push(<ProductCard key={product._id} product={product} handleModifyOpen={handleModifyOpen} />);
+                        }
+                        return acc;
+                      }, [])
                     }
                   </Grid>
               }
@@ -86,6 +91,12 @@ const Products = () => {
       {
         openDeleteModal ?
           <DeleteProduct open={openDeleteModal} setOpen={setOpenDeleteModal} modifyProduct={modifyProduct} />
+          :
+          null
+      }
+      {
+        openSellModal ?
+          <SellProduct open={openSellModal} setOpen={setOpenSellModal} modifyProduct={modifyProduct} />
           :
           null
       }

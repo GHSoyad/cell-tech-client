@@ -1,11 +1,11 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, Typography, styled } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import React, { Dispatch, FormEvent, SetStateAction } from "react";
+import React, { FormEvent } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { useDeleteProductMutation } from "../../redux/features/product/productApi";
 import toast from "react-hot-toast";
 import Loader from "../shared/Loader";
-import { IProduct } from "../../types/productTypes";
+import { IModifyProductProps } from "../../types/productTypes";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -26,14 +26,8 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-interface IDeleteProductProps {
-  open: boolean,
-  setOpen: Dispatch<SetStateAction<boolean>>,
-  modifyProduct: IProduct | undefined
-}
 
-
-const DeleteProduct = ({ open, setOpen, modifyProduct }: IDeleteProductProps) => {
+const DeleteProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
   const [deleteProduct, { isLoading }] = useDeleteProductMutation();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,8 +38,9 @@ const DeleteProduct = ({ open, setOpen, modifyProduct }: IDeleteProductProps) =>
     if (data?.data?.success) {
       toast.success(data?.data?.message);
       handleClose();
-    } else {
-      toast.error(data?.data?.message || "Something unexpected has happened!");
+    }
+    else {
+      toast.error(data?.error?.data?.message || "Something unexpected has happened!");
     }
   }
 

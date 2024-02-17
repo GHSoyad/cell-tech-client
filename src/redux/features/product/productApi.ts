@@ -36,4 +36,9 @@ export const productApi = baseApi.injectEndpoints({
 })
 
 // Auto-generated hooks based on the defined endpoints for usage in functional components
-export const { useGetProductsQuery, useCreateProductMutation, useUpdateProductMutation, useDeleteProductMutation } = productApi;
+export const {
+  useGetProductsQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation
+} = productApi;

@@ -10,7 +10,7 @@ interface IProductCard {
 
 
 const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
-  const { _id, name, brand, quantity, price } = product;
+  const { _id, name, brand, stock, price } = product;
 
 
   return (
@@ -34,7 +34,7 @@ const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
               Price : ${price}
             </Typography>
             <Typography variant="subtitle2" color="text.secondary" component="div">
-              Stock : {quantity}
+              Stock : {stock}
             </Typography>
           </Box>
         </CardContent>
@@ -42,6 +42,7 @@ const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
           options={[
             { id: _id, name: "Update", action: handleModifyOpen },
             { id: _id, name: "Delete", action: handleModifyOpen },
+            { id: _id, name: "Sell", action: handleModifyOpen },
           ]}
         />
       </Card>

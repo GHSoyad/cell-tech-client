@@ -1,12 +1,13 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, Slide, TextField, styled } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment, { MomentInput } from "moment";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
 import toast from "react-hot-toast";
 import Loader from "../shared/Loader";
+import { IModifyProductProps } from "../../types/productTypes";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -27,19 +28,14 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-interface IAddProductProps {
-  open: boolean,
-  setOpen: Dispatch<SetStateAction<boolean>>,
-}
 
-
-const AddProduct = ({ open, setOpen }: IAddProductProps) => {
+const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
   const [productData, setProductData] = useState({
     name: "",
     brand: "",
     model: "",
     price: "",
-    quantity: "",
+    stock: "",
     release_date: "",
     operating_system: "",
     storage_capacity: "",
@@ -60,12 +56,13 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
       [name]: value ? value : "",
     }))
 
-    if (name === "price" || name == "quantity" || name === "storage_capacity" || name === 'ram_capacity' || name === 'camera_quality' || name === "battery_capacity") {
+    if (name === "price" || name == "stock" || name === "storage_capacity" || name === 'ram_capacity' || name === 'camera_quality' || name === "battery_capacity") {
       setProductData(prevData => ({
         ...prevData,
         [name]: value ? parseInt(value) : "",
       }))
-    } else if (name === "price" || name === "screen_size") {
+    }
+    else if (name === "price" || name === "screen_size") {
       setProductData(prevData => ({
         ...prevData,
         [name]: value ? parseFloat(value) : "",
@@ -80,8 +77,9 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
     if (data?.data?.success) {
       toast.success(data?.data?.message);
       handleClose();
-    } else {
-      toast.error(data?.data?.message || "Something unexpected has happened!");
+    }
+    else {
+      toast.error(data?.error?.data?.message || "Something unexpected has happened!");
     }
   }
 
@@ -171,12 +169,12 @@ const AddProduct = ({ open, setOpen }: IAddProductProps) => {
             <TextField
               required
               margin="normal"
-              name="quantity"
-              label="Quantity"
+              name="stock"
+              label="Stock Quantity"
               fullWidth
               size="small"
               type="number"
-              value={productData.quantity}
+              value={productData.stock}
               onChange={handleChange}
             />
           </Box>
