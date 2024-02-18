@@ -1,30 +1,56 @@
-# React + TypeScript + Vite
+# Cell Tech
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Live Website Link https://cell-tech-client.vercel.app/
 
-Currently, two official plugins are available:
+## Description
+The Project is developed using ReactJS, TypeScript, NodeJS, ExpressJS, MongoDB, The app is responsive on smaller devices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### Admin Login Details
+Email: test@email.com
+Password: 123abc!@#ABC
 
-## Expanding the ESLint configuration
+### CSS Framework
+Material UI CSS Framework
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### React Library's used
+Some of the library's that was used in the project
 
-- Configure the top-level `parserOptions` property like this:
+#### Redux Toolkit
+ - To preserve global state and api calls
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+#### React Router
+ - To navigate the system
+ - To make private routing
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+#### Redux Persist
+ - To persist user data after reload
+
+#### React Hot Toast
+ - To display messages
+
+#### React Chart JS 2
+ - To show statistics
+
+### Pages
+The system consists of 4 main pages
+
+ - Login
+ - Register
+ - Dashboard
+ - Products
+
+The system is locked for users only, Without logging in it cannot be used
+
+### Features
+Features of the system
+
+ - Login page has email-password login option
+ - Register page has email-password registration option
+ - Sidemenu can be used to navigate and logout
+ - Dashboard shows line chart statistics of total sold amount based on selected days
+ - Products page lists all products
+ - A new product button at top opens a modal to add new product
+ - Products page have search functionality by price, release date, brand, model, os, storage, screen, camera, battery
+ - Each product card shows product image, name, price, release date, brand, model, os, storage, screen, camera, battery
+ - Product card has 3 action buttons that update, delete and sell the product
+ - Login has jwt implemented for user validation
