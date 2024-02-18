@@ -1,13 +1,19 @@
 import * as React from 'react';
-import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { logout } from '../../redux/features/auth/authSlice';
+import { useAppDispatch } from '../../redux/hooks';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import InventoryIcon from '@mui/icons-material/Inventory';
+
 
 const drawerWidth = 240;
 
 export default function SideMenu({ children }: { children: React.ReactNode }) {
+  const dispatch = useAppDispatch();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -27,13 +33,22 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
   };
 
   const menuList = [
-    { name: "Dashboard", href: "/", icon: <InboxIcon /> },
-    { name: "Products", href: "/products", icon: <InboxIcon /> }
+    { name: "Dashboard", href: "/", icon: <DashboardIcon /> },
+    { name: "Products", href: "/products", icon: <InventoryIcon /> }
   ]
 
   const drawer = (
     <div>
-      <Toolbar>SiteIcon</Toolbar>
+      <Toolbar >
+        <Link to='/' style={{ color: 'inherit', textDecoration: "none" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <PhoneAndroidIcon color='primary' />
+            <Typography variant='h6' sx={{ fontWeight: "600" }}>
+              Cell Tech
+            </Typography>
+          </Box>
+        </Link>
+      </Toolbar>
       <Divider />
       <List>
         {menuList.map((menu) => (
@@ -51,16 +66,14 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem onClick={() => dispatch(logout())} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );
