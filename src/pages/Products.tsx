@@ -39,7 +39,7 @@ const Products = () => {
   };
 
   const handleModifyOpen = (id: string, action: string) => {
-    const findProduct = products?.find(product => product._id === id);
+    const findProduct = products?.find((product: IProduct) => product._id === id);
     setModifyProduct(findProduct);
 
     if (action.toLowerCase() === "update") {
@@ -57,34 +57,34 @@ const Products = () => {
     let productsList = products;
 
     if (filter.price) {
-      productsList = productsList?.filter(product => product.price <= filter.price);
+      productsList = productsList?.filter((product: IProduct) => product.price <= filter.price);
     }
     if (filter.start_date) {
-      productsList = productsList?.filter(product => moment(product.release_date).isAfter(filter.start_date));
+      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isAfter(filter.start_date));
     }
     if (filter.start_date) {
-      productsList = productsList?.filter(product => moment(product.release_date).isBefore(filter.start_date));
+      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isBefore(filter.start_date));
     }
     if (filter.brand) {
-      productsList = productsList?.filter(product => product.brand.toLowerCase().trim().includes(filter.brand.toLowerCase().trim()));
+      productsList = productsList?.filter((product: IProduct) => product.brand.toLowerCase().trim().includes(filter.brand.toLowerCase().trim()));
     }
     if (filter.model) {
-      productsList = productsList?.filter(product => product.model.toLowerCase().trim().includes(filter.model.toLowerCase().trim()));
+      productsList = productsList?.filter((product: IProduct) => product.model.toLowerCase().trim().includes(filter.model.toLowerCase().trim()));
     }
     if (filter.operating_system) {
-      productsList = productsList?.filter(product => product.operating_system.toLowerCase().trim().includes(filter.operating_system.toLowerCase().trim()));
+      productsList = productsList?.filter((product: IProduct) => product.operating_system.toLowerCase().trim().includes(filter.operating_system.toLowerCase().trim()));
     }
     if (filter.storage_capacity) {
-      productsList = productsList?.filter(product => product.storage_capacity >= Number(filter.storage_capacity));
+      productsList = productsList?.filter((product: IProduct) => product.storage_capacity >= Number(filter.storage_capacity));
     }
     if (filter.screen_size) {
-      productsList = productsList?.filter(product => product.screen_size >= Number(filter.screen_size));
+      productsList = productsList?.filter((product: IProduct) => product.screen_size >= Number(filter.screen_size));
     }
     if (filter.camera_quality) {
-      productsList = productsList?.filter(product => product.camera_quality >= Number(filter.camera_quality));
+      productsList = productsList?.filter((product: IProduct) => product.camera_quality >= Number(filter.camera_quality));
     }
     if (filter.battery_capacity) {
-      productsList = productsList?.filter(product => product.battery_capacity >= Number(filter.battery_capacity));
+      productsList = productsList?.filter((product: IProduct) => product.battery_capacity >= Number(filter.battery_capacity));
     }
 
     setFilteredProducts(productsList);

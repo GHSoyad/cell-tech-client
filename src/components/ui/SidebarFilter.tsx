@@ -46,10 +46,10 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                     aria-label="Default"
                     valueLabelDisplay="auto"
                     name="price"
-                    onChange={(e) =>
+                    onChange={(_, value) =>
                         setFilter(prevData => ({
                             ...prevData,
-                            price: e?.target?.value,
+                            price: value as number,
                         }))}
                 />
                 <DatePicker
