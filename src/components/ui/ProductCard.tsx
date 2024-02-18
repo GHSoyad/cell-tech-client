@@ -10,7 +10,7 @@ interface IProductCard {
 
 
 const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
-  const { _id, name, brand, stock, price } = product;
+  const { _id, name, brand, release_date, stock, price, battery_capacity, camera_quality, operating_system, screen_size, storage_capacity } = product;
 
 
   return (
@@ -23,18 +23,40 @@ const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
           alt="product"
         />
         <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography component="div" variant="h6">
-            {name}
-          </Typography>
+          <Box sx={{ display: "flex", gap: 2, pt: 1, alignItems: "baseline" }}>
+            <Typography variant="h6">
+              {name}
+            </Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              {brand}
+            </Typography>
+          </Box>
           <Box sx={{ display: "flex", gap: 2, pt: 1 }}>
-            <Typography variant="subtitle2" color="text.secondary" component="div">
-              Brand : {brand}
+            <Typography variant="subtitle2" color="text.secondary">
+              Released : {release_date}
             </Typography>
-            <Typography variant="subtitle2" color="text.secondary" component="div">
-              Price : ${price}
+            <Typography variant="subtitle2" color="text.secondary">
+              Price ($) : {price}
             </Typography>
-            <Typography variant="subtitle2" color="text.secondary" component="div">
+            <Typography variant="subtitle2" color="text.secondary">
               Stock : {stock}
+            </Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              OS : {operating_system}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", gap: 2, pt: 1 }}>
+            <Typography variant="subtitle2" color="text.secondary">
+              Storage (GB) : {storage_capacity}
+            </Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              Camera (MP) : {camera_quality}
+            </Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              Battery (mAh) : {battery_capacity}
+            </Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              Screen (Inches) : {screen_size}
             </Typography>
           </Box>
         </CardContent>
