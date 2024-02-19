@@ -29,29 +29,28 @@ const Transition = React.forwardRef(function Transition(
 });
 
 
-const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
+const DuplicateProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
   const [productData, setProductData] = useState({
-    name: "",
-    brand: "",
-    model: "",
-    price: "",
-    stock: "",
-    release_date: "",
-    operating_system: "",
-    storage_capacity: "",
-    ram_capacity: "",
-    screen_size: "",
-    camera_quality: "",
-    battery_capacity: "",
-    image: "",
+    _id: modifyProduct?._id,
+    name: modifyProduct?.name,
+    brand: modifyProduct?.brand,
+    model: modifyProduct?.model,
+    price: modifyProduct?.price,
+    stock: modifyProduct?.stock,
+    release_date: modifyProduct?.release_date,
+    operating_system: modifyProduct?.operating_system,
+    storage_capacity: modifyProduct?.storage_capacity,
+    ram_capacity: modifyProduct?.ram_capacity,
+    screen_size: modifyProduct?.screen_size,
+    camera_quality: modifyProduct?.camera_quality,
+    battery_capacity: modifyProduct?.battery_capacity,
+    image: modifyProduct?.image,
   })
 
-  const [createPost, { isLoading }] = useCreateProductMutation();
+  const [createProduct, { isLoading }] = useCreateProductMutation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-
 
     if (name === "price" || name == "stock" || name === "storage_capacity" || name === 'ram_capacity' || name === 'camera_quality' || name === "battery_capacity") {
       if (parseInt(value) < 1) return;
@@ -80,7 +79,7 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data: any = await createPost(productData);
+    const data: any = await createProduct({ ...productData });
 
     if (data?.data?.success) {
       toast.success(data?.data?.message);
@@ -109,7 +108,7 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
       }}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Add New Product
+        Edit and Add New Product
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -276,6 +275,7 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
             <DatePicker
               name="release_date"
               label="Release Date"
+              value={moment(productData.release_date)}
               onChange={(e: MomentInput) =>
                 setProductData(prevData => (
                   {
@@ -314,4 +314,4 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
   );
 }
 
-export default AddProduct;
+export default DuplicateProduct;

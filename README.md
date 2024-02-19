@@ -32,12 +32,13 @@ Some of the library's that was used in the project
  - To show statistics
 
 ### Pages
-The system consists of 4 main pages
+The system consists of 5 main pages
 
  - Login
  - Register
  - Dashboard
  - Products
+ - Sales History
 
 The system is locked for users only, Without logging in it cannot be used
 
@@ -52,5 +53,6 @@ Features of the system
  - A new product button at top opens a modal to add new product
  - Products page have search functionality by price, release date, brand, model, os, storage, screen, camera, battery
  - Each product card shows product image, name, price, release date, brand, model, os, storage, screen, camera, battery
- - Product card has 3 action buttons that update, delete and sell the product
+ - Product card has 3 action buttons that update, delete, sell and duplicate to create new product
+ - Sales History page shows all sales history by daily, weekly, monthly and yearly
  - Login has jwt implemented for user validation

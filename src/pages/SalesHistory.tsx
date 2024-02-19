@@ -21,7 +21,7 @@ interface ITableProps {
 
 
 const SalesHistory = () => {
-  const [selectedDays, setSelectedDays] = useState("7");
+  const [selectedDays, setSelectedDays] = useState("1");
   const [salesData, setSalesData] = useState([]);
   const { data, isFetching, refetch } = useGetSalesQuery({ days: selectedDays }, { refetchOnMountOrArgChange: true });
 
@@ -66,16 +66,14 @@ const SalesHistory = () => {
           value={selectedDays}
           onChange={handleChange}
         >
+          <MenuItem value="1">Daily</MenuItem>
           <MenuItem value="7">Weekly</MenuItem>
           <MenuItem value="30">Monthly</MenuItem>
           <MenuItem value="365">Yearly</MenuItem>
         </Select>
       </FormControl>
 
-      <Box sx={{ width: '100%', bgcolor: "#fff", position: "relative", minHeight: 300, }}>
-        {
-          isFetching && <Loader />
-        }
+      <Box sx={{ width: '100%', bgcolor: "#fff", minHeight: 300, }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -90,7 +88,10 @@ const SalesHistory = () => {
                 <TableCell align="right">Seller</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody sx={{ position: "relative" }}>
+              {
+                isFetching && <Loader />
+              }
               {salesData.map((row: ITableProps) => (
                 <TableRow
                   key={row.id}

@@ -65,6 +65,7 @@ const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
             { id: _id, name: "Update", action: handleModifyOpen },
             { id: _id, name: "Delete", action: handleModifyOpen },
             { id: _id, name: "Sell", action: handleModifyOpen },
+            { id: _id, name: "Duplicate", action: handleModifyOpen },
           ]}
         />
       </Card>

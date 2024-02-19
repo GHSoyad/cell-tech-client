@@ -103,7 +103,7 @@ const SellProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
       }}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Update Product
+        Sell Product
       </DialogTitle>
       <IconButton
         aria-label="close"

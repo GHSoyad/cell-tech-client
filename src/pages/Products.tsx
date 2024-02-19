@@ -11,6 +11,7 @@ import SellProduct from "../components/ui/SellProduct";
 import SidebarFilter from "../components/ui/SidebarFilter";
 import moment from "moment";
 import PageHeader from "../components/shared/PageHeader";
+import DuplicateProduct from "../components/ui/DuplicateProduct";
 
 
 const Products = () => {
@@ -20,6 +21,7 @@ const Products = () => {
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openSellModal, setOpenSellModal] = useState(false);
+  const [openDuplicateModal, setOpenDuplicateModal] = useState(false);
   const [modifyProduct, setModifyProduct] = useState<IProduct>();
   const [filteredProducts, setFilteredProducts] = useState<IProduct[] | undefined>([]);
   const [filter, setFilter] = useState({
@@ -51,6 +53,9 @@ const Products = () => {
     }
     else if (action.toLowerCase() === "sell") {
       setOpenSellModal(true);
+    }
+    else if (action.toLowerCase() === "duplicate") {
+      setOpenDuplicateModal(true);
     }
   };
 
@@ -147,6 +152,12 @@ const Products = () => {
       {
         openSellModal ?
           <SellProduct open={openSellModal} setOpen={setOpenSellModal} modifyProduct={modifyProduct} />
+          :
+          null
+      }
+      {
+        openDuplicateModal ?
+          <DuplicateProduct open={openDuplicateModal} setOpen={setOpenDuplicateModal} modifyProduct={modifyProduct} />
           :
           null
       }
