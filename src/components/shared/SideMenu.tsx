@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../redux/hooks';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
-
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const drawerWidth = 240;
 
@@ -34,7 +34,8 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
   const menuList = [
     { name: "Dashboard", href: "/", icon: <DashboardIcon /> },
-    { name: "Products", href: "/products", icon: <InventoryIcon /> }
+    { name: "Products", href: "/products", icon: <InventoryIcon /> },
+    { name: "Sales History", href: "/sales-history", icon: <ReceiptIcon /> },
   ]
 
   const drawer = (

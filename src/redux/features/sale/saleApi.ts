@@ -4,6 +4,11 @@ import { baseApi } from '../../baseApi';
 // Define a service using a base URL and expected endpoints
 export const saleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getSales: builder.query({
+      query: (data) => ({
+        url: `/sales?days=${data.days}`,
+      }),
+    }),
     sellProduct: builder.mutation({
       query: (data) => ({
         url: `/sale`,
@@ -17,5 +22,6 @@ export const saleApi = baseApi.injectEndpoints({
 
 // Auto-generated hooks based on the defined endpoints for usage in functional components
 export const {
-  useSellProductMutation
+  useSellProductMutation,
+  useGetSalesQuery,
 } = saleApi;
