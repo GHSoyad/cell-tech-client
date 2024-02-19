@@ -12,8 +12,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
+import PageHeader from "../components/shared/PageHeader";
 
 ChartJS.register(
   CategoryScale,
@@ -43,7 +44,6 @@ const Dashboard = () => {
 
   const optionsData = {
     responsive: true,
-    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false
@@ -53,6 +53,11 @@ const Dashboard = () => {
       },
     },
     scales: {
+      x: {
+        ticks: {
+          maxTicksLimit: 31
+        }
+      },
       y: {
         min: 0,
         max: (Math.ceil((_.max(_.map((statistics?.content || []), 'totalAmountSold')) || 0) / 100) * 100) + 1000,
@@ -65,8 +70,8 @@ const Dashboard = () => {
     datasets: [
       {
         data: (statistics?.content || []).map((stat: IStat) => stat.totalAmountSold),
-        borderColor: '#6d0076',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: '#1976d2',
+        backgroundColor: '#1976d280',
       }
     ],
   };
@@ -74,18 +79,17 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Typography variant="h5">
-        Welcome to Dashboard
-      </Typography>
+      <PageHeader title="Dashboard">
+      </PageHeader>
 
       <FormControl
         margin="normal"
         size="small"
-        sx={{ mb: 4 }}
+        sx={{ mb: 4, width: 200 }}
       >
-        <InputLabel id="filter-screen">Select Days</InputLabel>
+        <InputLabel id="select-days">Select Days</InputLabel>
         <Select
-          labelId="filter-screen"
+          labelId="select-days"
           label="Select Days"
           value={selectedDays}
           onChange={handleChange}
@@ -96,14 +100,14 @@ const Dashboard = () => {
         </Select>
       </FormControl>
 
-      <div>
+      <Box sx={{ maxHeight: 500 }}>
         {
           isLoading ?
             <Loader />
             :
             <Line options={optionsData} data={chartData} />
         }
-      </div>
+      </Box>
     </div>
   );
 };

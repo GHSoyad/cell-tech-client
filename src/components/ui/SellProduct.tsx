@@ -8,6 +8,7 @@ import { useSellProductMutation } from "../../redux/features/sale/saleApi";
 import toast from "react-hot-toast";
 import Loader from "../shared/Loader";
 import { IModifyProductProps } from "../../types/productTypes";
+import { useAppSelector } from "../../redux/hooks";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -40,6 +41,7 @@ const SellProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
   })
 
   const [sellProduct, { isLoading }] = useSellProductMutation();
+  const user = useAppSelector((state) => state.auth.user);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,6 +73,7 @@ const SellProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
     const data: any = await sellProduct({
       ...productData,
       dateSold: productData.dateSold || moment().format("YYYY-MM-DD"),
+      sellerId: user?.userId,
     });
 
     if (data?.data?.success) {

@@ -58,7 +58,7 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                     onChange={(e: MomentInput) =>
                         setFilter(prevData => ({
                             ...prevData,
-                            start_date: moment(e).format("YYYY-MM-DD")
+                            start_date: e ? moment(e).format("YYYY-MM-DD") : ""
                         }))}
                     closeOnSelect
                     slotProps={{
@@ -66,6 +66,9 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             margin: "normal",
                             fullWidth: true,
                             size: "small",
+                        },
+                        field: {
+                            clearable: true,
                         }
                     }}
                     maxDate={filter.end_date ? moment(filter.end_date) : undefined}
@@ -76,7 +79,7 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                     onChange={(e: MomentInput) =>
                         setFilter(prevData => ({
                             ...prevData,
-                            end_date: moment(e).format("YYYY-MM-DD")
+                            end_date: e ? moment(e).format("YYYY-MM-DD") : ""
                         }))}
                     closeOnSelect
                     slotProps={{
@@ -84,9 +87,12 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             margin: "normal",
                             fullWidth: true,
                             size: "small",
+                        },
+                        field: {
+                            clearable: true,
                         }
                     }}
-                    minDate={filter.end_date ? moment(filter.end_date) : undefined}
+                    minDate={filter.start_date ? moment(filter.start_date) : undefined}
                 />
                 <TextField
                     margin="normal"
@@ -132,10 +138,10 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             }))}
                     >
                         <MenuItem value="">None</MenuItem>
-                        <MenuItem value={64}>{`< 64`}</MenuItem>
-                        <MenuItem value={128}>{`< 128`}</MenuItem>
-                        <MenuItem value={256}>{`< 256`}</MenuItem>
-                        <MenuItem value={512}>{`< 512`}</MenuItem>
+                        <MenuItem value={64}>{`> 64`}</MenuItem>
+                        <MenuItem value={128}>{`> 128`}</MenuItem>
+                        <MenuItem value={256}>{`> 256`}</MenuItem>
+                        <MenuItem value={512}>{`> 512`}</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl
@@ -155,10 +161,10 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             }))}
                     >
                         <MenuItem value="">None</MenuItem>
-                        <MenuItem value={4}>{`< 4`}</MenuItem>
-                        <MenuItem value={5}>{`< 5`}</MenuItem>
-                        <MenuItem value={6}>{`< 6`}</MenuItem>
-                        <MenuItem value={7}>{`< 7`}</MenuItem>
+                        <MenuItem value={4}>{`> 4`}</MenuItem>
+                        <MenuItem value={5}>{`> 5`}</MenuItem>
+                        <MenuItem value={6}>{`> 6`}</MenuItem>
+                        <MenuItem value={7}>{`> 7`}</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl
@@ -178,10 +184,10 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             }))}
                     >
                         <MenuItem value="">None</MenuItem>
-                        <MenuItem value={30}>{`< 30`}</MenuItem>
-                        <MenuItem value={40}>{`< 40`}</MenuItem>
-                        <MenuItem value={50}>{`< 50`}</MenuItem>
-                        <MenuItem value={60}>{`< 60`}</MenuItem>
+                        <MenuItem value={30}>{`> 30`}</MenuItem>
+                        <MenuItem value={40}>{`> 40`}</MenuItem>
+                        <MenuItem value={50}>{`> 50`}</MenuItem>
+                        <MenuItem value={60}>{`> 60`}</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl
@@ -201,9 +207,9 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             }))}
                     >
                         <MenuItem value="">None</MenuItem>
-                        <MenuItem value={3000}>{`< 3000`}</MenuItem>
-                        <MenuItem value={4000}>{`< 4000`}</MenuItem>
-                        <MenuItem value={5000}>{`< 5000`}</MenuItem>
+                        <MenuItem value={3000}>{`> 3000`}</MenuItem>
+                        <MenuItem value={4000}>{`> 4000`}</MenuItem>
+                        <MenuItem value={5000}>{`> 5000`}</MenuItem>
                     </Select>
                 </FormControl>
             </Box>

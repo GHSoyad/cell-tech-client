@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Divider, Grid, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import ProductCard from "../components/ui/ProductCard"
 import AddIcon from '@mui/icons-material/Add';
@@ -10,6 +10,7 @@ import DeleteProduct from "../components/ui/DeleteProduct";
 import SellProduct from "../components/ui/SellProduct";
 import SidebarFilter from "../components/ui/SidebarFilter";
 import moment from "moment";
+import PageHeader from "../components/shared/PageHeader";
 
 
 const Products = () => {
@@ -39,7 +40,7 @@ const Products = () => {
   };
 
   const handleModifyOpen = (id: string, action: string) => {
-    const findProduct = products?.find((product: IProduct) => product._id === id);
+    const findProduct = products?.content?.find((product: IProduct) => product._id === id);
     setModifyProduct(findProduct);
 
     if (action.toLowerCase() === "update") {
@@ -54,7 +55,7 @@ const Products = () => {
   };
 
   useEffect(() => {
-    let productsList = products;
+    let productsList = products?.content;
 
     if (filter.price) {
       productsList = productsList?.filter((product: IProduct) => product.price <= filter.price);
@@ -62,8 +63,8 @@ const Products = () => {
     if (filter.start_date) {
       productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isAfter(filter.start_date));
     }
-    if (filter.start_date) {
-      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isBefore(filter.start_date));
+    if (filter.end_date) {
+      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isBefore(filter.end_date));
     }
     if (filter.brand) {
       productsList = productsList?.filter((product: IProduct) => product.brand.toLowerCase().trim().includes(filter.brand.toLowerCase().trim()));
@@ -88,22 +89,18 @@ const Products = () => {
     }
 
     setFilteredProducts(productsList);
-  }, [products, filter])
+  }, [products?.content, filter])
 
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-          Products
-        </Typography>
+      <PageHeader title="Products">
         <Button variant="contained" size="medium" endIcon={<AddIcon />} onClick={handleAddOpen}>
           New Product
         </Button>
-      </Box>
-      <Divider />
+      </PageHeader>
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2} columnSpacing={[2, 3]} mt={1}>
+        <Grid container spacing={2} columnSpacing={[2, 3]}>
           <Grid item xs={3} >
             <SidebarFilter filter={filter} setFilter={setFilter} />
           </Grid>
