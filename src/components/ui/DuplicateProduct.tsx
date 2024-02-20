@@ -31,7 +31,6 @@ const Transition = React.forwardRef(function Transition(
 
 const DuplicateProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
   const [productData, setProductData] = useState({
-    _id: modifyProduct?._id,
     name: modifyProduct?.name,
     brand: modifyProduct?.brand,
     model: modifyProduct?.model,

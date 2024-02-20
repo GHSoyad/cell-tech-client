@@ -38,6 +38,7 @@ The system consists of 5 main pages
  - Register
  - Dashboard
  - Products
+ - Inventory
  - Sales History
 
 The system is locked for users only, Without logging in it cannot be used
@@ -47,12 +48,13 @@ Features of the system
 
  - Login page has email-password login option
  - Register page has email-password registration option
- - Sidemenu can be used to navigate and logout
+ - SideMenu can be used to navigate and logout
  - Dashboard shows line chart statistics of total sold amount based on selected days
  - Products page lists all products
  - A new product button at top opens a modal to add new product
  - Products page have search functionality by price, release date, brand, model, os, storage, screen, camera, battery
  - Each product card shows product image, name, price, release date, brand, model, os, storage, screen, camera, battery
  - Product card has 3 action buttons that update, delete, sell and duplicate to create new product
+ - Inventory page lists the products with additional fields sold, status and selection for bulk delete
  - Sales History page shows all sales history by daily, weekly, monthly and yearly
  - Login has jwt implemented for user validation

@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import SalesHistory from "../pages/SalesHistory";
+import Inventory from "../pages/Inventory";
 
 const MainRoute = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const MainRoute = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/inventory",
+        element: <Inventory />,
       },
       {
         path: "/sales-history",

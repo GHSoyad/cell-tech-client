@@ -44,6 +44,7 @@ const Dashboard = () => {
 
   const optionsData = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false
@@ -105,7 +106,7 @@ const Dashboard = () => {
           isLoading ?
             <Loader />
             :
-            <Line options={optionsData} data={chartData} />
+            <Line options={optionsData} height={400} data={chartData} />
         }
       </Box>
     </div>

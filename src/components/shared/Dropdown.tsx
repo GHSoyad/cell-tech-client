@@ -42,7 +42,7 @@ const Dropdown = ({ options }: { options: IDropdown[] }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        onSelect={handleClose}
+        onClick={handleClose}
       >
         {options.map((option) => (
           <MenuItem key={option.name} href='' onClick={() => option.action(option.id, option.name)}>

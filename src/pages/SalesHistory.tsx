@@ -1,6 +1,5 @@
-import { FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import PageHeader from "../components/shared/PageHeader";
-import Box from '@mui/material/Box';
 import { useGetSalesQuery } from "../redux/features/sale/saleApi";
 import { useEffect, useState } from "react";
 import { ISaleInfo } from "../types/saleTypes";

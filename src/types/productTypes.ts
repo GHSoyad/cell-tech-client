@@ -16,6 +16,7 @@ export interface IProduct {
   battery_capacity: number;
   status: boolean;
   image: string;
+  sold: number;
 }
 
 export interface IModifyProductProps {
