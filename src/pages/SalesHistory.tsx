@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Card, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PageHeader from "../components/shared/PageHeader";
 import { useGetSalesQuery } from "../redux/features/sale/saleApi";
 import { useEffect, useState } from "react";
@@ -20,13 +20,13 @@ interface ITableProps {
 
 
 const SalesHistory = () => {
-  const [selectedDays, setSelectedDays] = useState("1");
+  const [selectedDays, setSelectedDays] = useState(30);
   const [salesData, setSalesData] = useState([]);
   const { data, isFetching, refetch } = useGetSalesQuery({ days: selectedDays }, { refetchOnMountOrArgChange: true });
 
   const handleChange = (e: SelectChangeEvent<string>) => {
     const days = parseInt(e.target.value);
-    setSelectedDays(days.toString());
+    setSelectedDays(days);
     refetch();
   }
 
@@ -45,72 +45,81 @@ const SalesHistory = () => {
       }))
 
       setSalesData(rows);
+    } else {
+      setSalesData([])
     }
   }, [data?.content])
 
   return (
     <>
-      <PageHeader title="Sales History">
-      </PageHeader>
-
-      <FormControl
-        margin="normal"
-        size="small"
-        sx={{ mb: 4, width: 200 }}
-      >
-        <InputLabel id="select-days">Select Days</InputLabel>
-        <Select
-          labelId="select-days"
-          label="Select Days"
-          value={selectedDays}
-          onChange={handleChange}
+      <PageHeader title="Sales History" />
+      <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 }, minHeight: "calc(100vh - 178px)" }}>
+        <FormControl
+          margin="normal"
+          size="small"
+          sx={{ mb: 3, width: 200 }}
         >
-          <MenuItem value="1">Daily</MenuItem>
-          <MenuItem value="7">Weekly</MenuItem>
-          <MenuItem value="30">Monthly</MenuItem>
-          <MenuItem value="365">Yearly</MenuItem>
-        </Select>
-      </FormControl>
+          <InputLabel id="select-days">Select Days</InputLabel>
+          <Select
+            labelId="select-days"
+            label="Select Days"
+            value={selectedDays.toString()}
+            onChange={handleChange}
+          >
+            <MenuItem value="1">Daily</MenuItem>
+            <MenuItem value="7">Weekly</MenuItem>
+            <MenuItem value="30">Monthly</MenuItem>
+            <MenuItem value="365">Yearly</MenuItem>
+          </Select>
+        </FormControl>
 
-      <Box sx={{ width: '100%', bgcolor: "#fff", minHeight: 300, }}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>No.</TableCell>
-                <TableCell align="right">Product</TableCell>
-                <TableCell align="right">Quantity</TableCell>
-                <TableCell align="right">Price</TableCell>
-                <TableCell align="right">Total Amount</TableCell>
-                <TableCell align="right">Sale Date</TableCell>
-                <TableCell align="right">Buyer</TableCell>
-                <TableCell align="right">Seller</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody sx={{ position: "relative" }}>
-              {
-                isFetching && <Loader />
-              }
-              {salesData.map((row: ITableProps) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  hover
-                >
-                  <TableCell>{row.sno}</TableCell>
-                  <TableCell align="right">{row.product}</TableCell>
-                  <TableCell align="right">{row.quantity}</TableCell>
-                  <TableCell align="right">{row.price}</TableCell>
-                  <TableCell align="right">{row.totalAmount}</TableCell>
-                  <TableCell align="right">{moment(row.saleDate).format("DD-MM-YYYY")}</TableCell>
-                  <TableCell align="right">{row.buyer}</TableCell>
-                  <TableCell align="right">{row.seller}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+        <Box component={Paper} sx={{ width: '100%', position: "relative" }}>
+          {
+            isFetching && <Loader />
+          }
+          {
+            salesData?.length ?
+              <TableContainer>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>No.</TableCell>
+                      <TableCell align="right">Product</TableCell>
+                      <TableCell align="right">Quantity</TableCell>
+                      <TableCell align="right">Price</TableCell>
+                      <TableCell align="right">Total Amount</TableCell>
+                      <TableCell align="right">Sale Date</TableCell>
+                      <TableCell align="right">Buyer</TableCell>
+                      <TableCell align="right">Seller</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {salesData.map((row: ITableProps) => (
+                      <TableRow
+                        key={row.id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        hover
+                      >
+                        <TableCell>{row.sno}</TableCell>
+                        <TableCell align="right">{row.product}</TableCell>
+                        <TableCell align="right">{row.quantity}</TableCell>
+                        <TableCell align="right">{row.price}</TableCell>
+                        <TableCell align="right">{row.totalAmount}</TableCell>
+                        <TableCell align="right">{moment(row.saleDate).format("DD-MM-YYYY")}</TableCell>
+                        <TableCell align="right">{row.buyer}</TableCell>
+                        <TableCell align="right">{row.seller}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              :
+              <Typography variant="h6" sx={{ p: 3, textAlign: "center" }}>
+                No Data Found
+              </Typography>
+          }
+        </Box>
+      </Card>
     </>
   );
 };

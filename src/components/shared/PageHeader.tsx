@@ -1,7 +1,7 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
-const PageHeader = ({ title, children }: {title:string, children?: ReactNode }) => {
+const PageHeader = ({ title, children }: { title: string, children?: ReactNode }) => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>

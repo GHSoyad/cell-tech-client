@@ -33,7 +33,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
   };
 
   const menuList = [
-    { name: "Dashboard", href: "/", icon: <DashboardIcon /> },
+    { name: "Dashboard", href: "/dashboard", icon: <DashboardIcon /> },
     { name: "Products", href: "/products", icon: <PhoneAndroidIcon /> },
     { name: "Inventory", href: "/inventory", icon: <InventoryIcon /> },
     { name: "Sales History", href: "/sales-history", icon: <ReceiptIcon /> },

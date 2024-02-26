@@ -51,8 +51,6 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-
-
     if (name === "price" || name == "stock" || name === "storage_capacity" || name === 'ram_capacity' || name === 'camera_quality' || name === "battery_capacity") {
       if (parseInt(value) < 1) return;
 
@@ -191,29 +189,23 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
               required
               margin="normal"
               name="storage_capacity"
-              label="Storage Capacity"
+              label="Storage Capacity (GB)"
               fullWidth
               size="small"
               type="number"
               value={productData.storage_capacity}
               onChange={handleChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">GB</InputAdornment>,
-              }}
             />
             <TextField
               required
               margin="normal"
               name="ram_capacity"
-              label="Ram Capacity"
+              label="Ram Capacity (GB)"
               fullWidth
               size="small"
               type="number"
               value={productData.ram_capacity}
               onChange={handleChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">GB</InputAdornment>,
-              }}
             />
           </Box>
           <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: { xs: 0, md: 2 } }}>
@@ -231,15 +223,12 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
               required
               margin="normal"
               name="screen_size"
-              label="Screen Size"
+              label="Screen Size (Inch)"
               fullWidth
               size="small"
               type="number"
               value={productData.screen_size}
               onChange={handleChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">Inches</InputAdornment>,
-              }}
             />
           </Box>
           <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: { xs: 0, md: 2 } }}>
@@ -247,29 +236,23 @@ const AddProduct = ({ open, setOpen }: IModifyProductProps) => {
               required
               margin="normal"
               name="camera_quality"
-              label="Camera Quality"
+              label="Camera Quality (MP)"
               fullWidth
               size="small"
               type="number"
               value={productData.camera_quality}
               onChange={handleChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">MP</InputAdornment>,
-              }}
             />
             <TextField
               required
               margin="normal"
               name="battery_capacity"
-              label="Battery Capacity"
+              label="Battery Capacity (mAh)"
               fullWidth
               size="small"
               type="number"
               value={productData.battery_capacity}
               onChange={handleChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">mAh</InputAdornment>,
-              }}
             />
           </Box>
           <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: { xs: 0, md: 2 } }}>

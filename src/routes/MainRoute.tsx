@@ -18,6 +18,10 @@ const MainRoute = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
         path: "/products",
         element: <Products />,
       },

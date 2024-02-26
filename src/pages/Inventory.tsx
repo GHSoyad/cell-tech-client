@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Button, Card, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PageHeader from "../components/shared/PageHeader";
 import { useDeleteBulkProductsMutation, useGetProductsQuery } from "../redux/features/product/productApi";
 import { useEffect, useState } from "react";
@@ -53,7 +53,6 @@ const Inventory = () => {
 
   const handleDelete = async () => {
     const deletedProductList = Array.from(selectedProducts);
-    console.log(deletedProductList)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any = await deleteProducts(deletedProductList);
 
@@ -69,60 +68,71 @@ const Inventory = () => {
 
   return (
     <>
-      <PageHeader title="Sales History" />
-      <Box sx={{ textAlign: "end", mb: 2 }}>
-        <Button
-          variant="contained"
-          size="medium"
-          endIcon={<DeleteIcon />}
-          onClick={handleDelete}
-          disabled={!selectedProducts.size || isLoading}
-        >
-          Bulk Delete
-        </Button>
-      </Box>
+      <PageHeader title="Inventory" />
+      <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 }, minHeight: "calc(100vh - 188px)", position: "relative" }}>
+        <Box sx={{ textAlign: "end", mb: 2 }}>
+          <Button
+            variant="contained"
+            size="medium"
+            endIcon={<DeleteIcon />}
+            onClick={handleDelete}
+            disabled={!selectedProducts.size || isLoading}
+          >
+            Bulk Delete
+          </Button>
+        </Box>
 
-      <Box sx={{ width: '100%', bgcolor: "#fff", minHeight: 300, position: "relative" }}>
-        {
-          (isFetching || isLoading) && <Loader />
-        }
-        <TableContainer component={Paper} sx={{ maxHeight: "calc(100vh - 188px)" }}>
-          <Table stickyHeader sx={{ minWidth: 650 }} size="small" aria-label="inventory table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 600 }}>No.</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Product</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Brand</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Model</TableCell>
-                <TableCell sx={{ fontWeight: 600 }} align="center">Price</TableCell>
-                <TableCell sx={{ fontWeight: 600 }} align="center">Stock</TableCell>
-                <TableCell sx={{ fontWeight: 600 }} align="center">Sold</TableCell>
-                <TableCell sx={{ fontWeight: 600 }} align="center">Status</TableCell>
-                <TableCell sx={{ fontWeight: 600 }} align="center">Select</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {productsData.map((row: ITableProps) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  hover
-                >
-                  <TableCell>{row.sno}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.brand}</TableCell>
-                  <TableCell>{row.model}</TableCell>
-                  <TableCell align="center">{row.price}</TableCell>
-                  <TableCell align="center">{row.stock}</TableCell>
-                  <TableCell align="center">{row.sold}</TableCell>
-                  <TableCell align="center">{row.status}</TableCell>
-                  <TableCell align="center"><Checkbox size="small" checked={selectedProducts.has(row.id)} onChange={(e) => handleRowSelect(e.target.checked, row.id)} /></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+        <>
+          {
+            (isFetching || isLoading) ?
+              <Loader />
+              :
+              productsData?.length ?
+                <TableContainer component={Paper} sx={{ maxHeight: "calc(100vh - 278px)" }}>
+                  <Table stickyHeader size="small" aria-label="inventory table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell sx={{ fontWeight: 600 }}>No.</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>Product</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>Brand</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>Model</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }} align="center">Price</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }} align="center">Stock</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }} align="center">Sold</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }} align="center">Status</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }} align="center">Select</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {
+                        productsData.map((row: ITableProps) => (
+                          <TableRow
+                            key={row.id}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            hover
+                          >
+                            <TableCell>{row.sno}</TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.brand}</TableCell>
+                            <TableCell>{row.model}</TableCell>
+                            <TableCell align="center">{row.price}</TableCell>
+                            <TableCell align="center">{row.stock}</TableCell>
+                            <TableCell align="center">{row.sold}</TableCell>
+                            <TableCell align="center">{row.status}</TableCell>
+                            <TableCell align="center"><Checkbox size="small" checked={selectedProducts.has(row.id)} onChange={(e) => handleRowSelect(e.target.checked, row.id)} sx={{ p: .5 }} /></TableCell>
+                          </TableRow>
+                        ))
+                      }
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                :
+                <Typography variant="h6" sx={{ p: 3, textAlign: "center" }}>
+                  No Data Found
+                </Typography>
+          }
+        </>
+      </Card>
     </>
   );
 };

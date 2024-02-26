@@ -5,8 +5,8 @@ import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 interface IFilter {
     price: number,
-    start_date: string,
-    end_date: string,
+    released_after: string,
+    released_before: string,
     brand: string,
     model: string,
     operating_system: string,
@@ -22,7 +22,7 @@ interface ISidebarProps {
 }
 
 
-const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
+const ProductsFilter = ({ filter, setFilter }: ISidebarProps) => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -34,8 +34,7 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
     }
 
     return (
-        <Card sx={{ borderRadius: "10px", minHeight: "calc(100vh - 188px)", p: { xs: 2, md: 4 } }}>
-
+        <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 } }}>
             <Box >
                 <Typography variant="button">
                     Price Range
@@ -53,12 +52,12 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                         }))}
                 />
                 <DatePicker
-                    name="startDate"
-                    label="Release Start Date"
+                    name="released_after"
+                    label="Released After"
                     onChange={(e: MomentInput) =>
                         setFilter(prevData => ({
                             ...prevData,
-                            start_date: e ? moment(e).format("YYYY-MM-DD") : ""
+                            released_after: e ? moment(e).format("YYYY-MM-DD") : ""
                         }))}
                     closeOnSelect
                     slotProps={{
@@ -71,15 +70,15 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             clearable: true,
                         }
                     }}
-                    maxDate={filter.end_date ? moment(filter.end_date) : undefined}
+                    maxDate={filter.released_before ? moment(filter.released_before) : undefined}
                 />
                 <DatePicker
-                    name="endDate"
-                    label="Release End Date"
+                    name="released_before"
+                    label="Released Before"
                     onChange={(e: MomentInput) =>
                         setFilter(prevData => ({
                             ...prevData,
-                            end_date: e ? moment(e).format("YYYY-MM-DD") : ""
+                            released_before: e ? moment(e).format("YYYY-MM-DD") : ""
                         }))}
                     closeOnSelect
                     slotProps={{
@@ -92,7 +91,7 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                             clearable: true,
                         }
                     }}
-                    minDate={filter.start_date ? moment(filter.start_date) : undefined}
+                    minDate={filter.released_after ? moment(filter.released_after) : undefined}
                 />
                 <TextField
                     margin="normal"
@@ -149,11 +148,11 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
                     margin="normal"
                     size="small"
                 >
-                    <InputLabel id="filter-screen">Screen Size (Inches)</InputLabel>
+                    <InputLabel id="filter-screen">Screen Size (Inch)</InputLabel>
                     <Select
                         labelId="filter-screen"
                         value={filter.screen_size}
-                        label="Screen Size (Inches)"
+                        label="Screen Size (Inch)"
                         onChange={(e) =>
                             setFilter(prevData => ({
                                 ...prevData,
@@ -217,4 +216,4 @@ const SidebarFilter = ({ filter, setFilter }: ISidebarProps) => {
     );
 };
 
-export default SidebarFilter;
+export default ProductsFilter;

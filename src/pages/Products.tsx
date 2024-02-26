@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Grid } from "@mui/material";
+import { Box, Button, Card, CircularProgress, Grid } from "@mui/material";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import ProductCard from "../components/ui/ProductCard"
 import AddIcon from '@mui/icons-material/Add';
@@ -8,14 +8,14 @@ import UpdateProduct from "../components/ui/UpdateProduct";
 import { IProduct } from "../types/productTypes";
 import DeleteProduct from "../components/ui/DeleteProduct";
 import SellProduct from "../components/ui/SellProduct";
-import SidebarFilter from "../components/ui/SidebarFilter";
+import ProductsFilter from "../components/ui/ProductsFilter";
 import moment from "moment";
 import PageHeader from "../components/shared/PageHeader";
 import DuplicateProduct from "../components/ui/DuplicateProduct";
 
 
 const Products = () => {
-  const { data: products, isLoading } = useGetProductsQuery(undefined, { refetchOnMountOrArgChange: true });
+  const { data: products, isFetching } = useGetProductsQuery(undefined, { refetchOnMountOrArgChange: true });
 
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -26,8 +26,8 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState<IProduct[] | undefined>([]);
   const [filter, setFilter] = useState({
     price: 0,
-    start_date: "",
-    end_date: "",
+    released_after: "",
+    released_before: "",
     brand: "",
     model: "",
     operating_system: "",
@@ -65,11 +65,11 @@ const Products = () => {
     if (filter.price) {
       productsList = productsList?.filter((product: IProduct) => product.price <= filter.price);
     }
-    if (filter.start_date) {
-      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isAfter(filter.start_date));
+    if (filter.released_after) {
+      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isAfter(filter.released_after));
     }
-    if (filter.end_date) {
-      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isBefore(filter.end_date));
+    if (filter.released_before) {
+      productsList = productsList?.filter((product: IProduct) => moment(product.release_date).isBefore(filter.released_before));
     }
     if (filter.brand) {
       productsList = productsList?.filter((product: IProduct) => product.brand.toLowerCase().trim().includes(filter.brand.toLowerCase().trim()));
@@ -99,37 +99,40 @@ const Products = () => {
 
   return (
     <>
-      <PageHeader title="Products">
-        <Button variant="contained" size="medium" endIcon={<AddIcon />} onClick={handleAddOpen}>
-          New Product
-        </Button>
-      </PageHeader>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2} columnSpacing={[2, 3]}>
-          <Grid item xs={3} >
-            <SidebarFilter filter={filter} setFilter={setFilter} />
-          </Grid>
-          <Grid item xs={9} sx={{ position: "relative" }}>
-            <div className="border" style={{ borderRadius: "10px", padding: "8px", minHeight: "calc(100vh - 188px)" }}>
+      <PageHeader title="Products" />
+      <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 } }}>
+        <Box sx={{ textAlign: "end", mb: 2 }}>
+          <Button variant="contained" size="medium" endIcon={<AddIcon />} onClick={handleAddOpen}>
+            New Product
+          </Button>
+        </Box>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2} columnSpacing={[2, 3]}>
+            <Grid item xs={3} >
+              <ProductsFilter filter={filter} setFilter={setFilter} />
+            </Grid>
+            <Grid item xs={9} sx={{ position: "relative" }}>
               {
-                isLoading ?
+                isFetching ?
                   <CircularProgress sx={{ position: "absolute", top: "20%", left: "50%" }} />
                   :
                   <Grid container rowSpacing={[1, 2]} sx={{ position: "relative" }}>
                     {
                       filteredProducts?.reduce((acc: JSX.Element[], product: IProduct) => {
                         if (product.status || product.stock > 0) {
-                          acc.push(<ProductCard key={product._id} product={product} handleModifyOpen={handleModifyOpen} />);
+                          acc.push(
+                            <ProductCard key={product._id} product={product} handleModifyOpen={handleModifyOpen} />
+                          );
                         }
                         return acc;
                       }, [])
                     }
                   </Grid>
               }
-            </div>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Card>
 
       {
         openAddModal ?

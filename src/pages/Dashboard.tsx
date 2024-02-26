@@ -12,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { Box, Card, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 import PageHeader from "../components/shared/PageHeader";
 
@@ -33,12 +33,12 @@ interface IStat {
 
 
 const Dashboard = () => {
-  const [selectedDays, setSelectedDays] = useState("7");
-  const { data: statistics, isLoading, refetch } = useGetStatisticsQuery({ days: selectedDays }, { refetchOnMountOrArgChange: true });
+  const [selectedDays, setSelectedDays] = useState(30);
+  const { data: statistics, isFetching, refetch } = useGetStatisticsQuery({ days: selectedDays }, { refetchOnMountOrArgChange: true });
 
   const handleChange = (e: SelectChangeEvent<string>) => {
     const days = parseInt(e.target.value);
-    setSelectedDays(days.toString());
+    setSelectedDays(days);
     refetch();
   }
 
@@ -61,7 +61,7 @@ const Dashboard = () => {
       },
       y: {
         min: 0,
-        max: (Math.ceil((_.max(_.map((statistics?.content || []), 'totalAmountSold')) || 0) / 100) * 100) + 1000,
+        max: (Math.ceil((_.max(_.map((statistics?.content || []), 'totalAmountSold')) || 0) / 100) * 100) + 500,
       }
     },
   };
@@ -79,37 +79,36 @@ const Dashboard = () => {
 
 
   return (
-    <div>
-      <PageHeader title="Dashboard">
-      </PageHeader>
-
-      <FormControl
-        margin="normal"
-        size="small"
-        sx={{ mb: 4, width: 200 }}
-      >
-        <InputLabel id="select-days">Select Days</InputLabel>
-        <Select
-          labelId="select-days"
-          label="Select Days"
-          value={selectedDays}
-          onChange={handleChange}
+    <>
+      <PageHeader title="Dashboard" />
+      <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 } }}>
+        <FormControl
+          margin="normal"
+          size="small"
+          sx={{ mb: 3, width: 200 }}
         >
-          <MenuItem value="7">Weekly</MenuItem>
-          <MenuItem value="30">Monthly</MenuItem>
-          <MenuItem value="365">Yearly</MenuItem>
-        </Select>
-      </FormControl>
+          <InputLabel id="select-days">Select Days</InputLabel>
+          <Select
+            labelId="select-days"
+            label="Select Days"
+            value={selectedDays.toString()}
+            onChange={handleChange}
+          >
+            <MenuItem value="7">Weekly</MenuItem>
+            <MenuItem value="30">Monthly</MenuItem>
+            <MenuItem value="365">Yearly</MenuItem>
+          </Select>
+        </FormControl>
 
-      <Box sx={{ maxHeight: 500 }}>
-        {
-          isLoading ?
+        <Box sx={{ minHeight: 300, position: "relative" }}>
+          {
+            isFetching &&
             <Loader />
-            :
-            <Line options={optionsData} height={400} data={chartData} />
-        }
-      </Box>
-    </div>
+          }
+          <Line options={optionsData} height={350} data={chartData} />
+        </Box>
+      </Card>
+    </>
   );
 };
 

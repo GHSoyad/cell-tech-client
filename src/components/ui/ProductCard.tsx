@@ -15,7 +15,7 @@ const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
 
   return (
     <Grid item xs={12} >
-      <Card sx={{ display: 'flex', alignItems: 'center' }}>
+      <Card sx={{ display: 'flex', alignItems: 'center', ":hover": { boxShadow: 3 } }}>
         <CardMedia
           component="img"
           sx={{ width: 160, py: 1 }}
@@ -56,7 +56,7 @@ const ProductCard = ({ product, handleModifyOpen }: IProductCard) => {
               Battery (mAh) : {battery_capacity}
             </Typography>
             <Typography variant="subtitle2" color="text.secondary">
-              Screen (Inches) : {screen_size}
+              Screen (Inch) : {screen_size}
             </Typography>
           </Box>
         </CardContent>

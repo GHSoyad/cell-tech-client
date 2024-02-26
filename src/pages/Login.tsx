@@ -33,10 +33,10 @@ const Login = () => {
     const data: any = await loginUser(loginData);
 
     if (data?.data?.success) {
-      const {token, ...userInfo} = data.data.content;
+      const { token, ...userInfo } = data.data.content;
       toast.success(data?.data?.message);
       dispatch(setUser({ user: userInfo, token }));
-      navigate("/");
+      navigate("/dashboard");
     }
     else {
       toast.error(data?.error?.data?.message || "Something unexpected has happened!");

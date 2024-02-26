@@ -6,13 +6,13 @@ export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => ({
-        url: `/phones`,
+        url: `/products`,
       }),
       providesTags: ["products"]
     }),
     createProduct: builder.mutation({
       query: (data) => ({
-        url: `/phone`,
+        url: `/product`,
         method: 'POST',
         body: data,
       }),
@@ -20,7 +20,7 @@ export const productApi = baseApi.injectEndpoints({
     }),
     updateProduct: builder.mutation({
       query: ({ _id, ...data }) => ({
-        url: `/phone/${_id}`,
+        url: `/product/${_id}`,
         method: 'PATCH',
         body: data,
       }),
@@ -28,14 +28,14 @@ export const productApi = baseApi.injectEndpoints({
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
-        url: `/phone/${id}`,
+        url: `/product/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ["products"],
     }),
     deleteBulkProducts: builder.mutation({
       query: (ids) => ({
-        url: `/phones?ids=${ids}`,
+        url: `/products?ids=${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: ["products"],
