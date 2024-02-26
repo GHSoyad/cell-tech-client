@@ -9,6 +9,7 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ReceiptIcon from '@mui/icons-material/Receipt';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 const drawerWidth = 240;
 
@@ -37,6 +38,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
     { name: "Products", href: "/products", icon: <PhoneAndroidIcon /> },
     { name: "Inventory", href: "/inventory", icon: <InventoryIcon /> },
     { name: "Sales History", href: "/sales-history", icon: <ReceiptIcon /> },
+    { name: "Users", href: "/users", icon: <GroupsIcon /> },
   ]
 
   const drawer = (

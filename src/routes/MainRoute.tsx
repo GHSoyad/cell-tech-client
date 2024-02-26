@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import SalesHistory from "../pages/SalesHistory";
 import Inventory from "../pages/Inventory";
+import Users from "../pages/Users";
 
 const MainRoute = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const MainRoute = createBrowserRouter([
       {
         path: "/sales-history",
         element: <SalesHistory />,
+      },
+      {
+        path: "/users",
+        element: <Users />,
       },
     ],
   },

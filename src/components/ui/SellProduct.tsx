@@ -73,7 +73,7 @@ const SellProduct = ({ open, setOpen, modifyProduct }: IModifyProductProps) => {
     const data: any = await sellProduct({
       ...productData,
       dateSold: productData.dateSold || moment().format("YYYY-MM-DD"),
-      sellerId: user?.userId,
+      sellerId: user?._id,
     });
 
     if (data?.data?.success) {

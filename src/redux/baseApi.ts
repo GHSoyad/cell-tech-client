@@ -39,6 +39,6 @@ const baseQueryWithVerifyToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: baseQueryWithVerifyToken,
-  tagTypes: ['products'],
+  tagTypes: ["products", "users"],
   endpoints: () => ({}),
 });
