@@ -6,7 +6,7 @@ export const statisticsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getStatistics: builder.query({
       query: (data) => ({
-        url: `/statistics/sales?days=${data.days}`,
+        url: `/statistics/sales?days=${data.days}&userId=${data.userId}`,
       }),
     }),
   }),

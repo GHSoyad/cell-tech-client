@@ -6,7 +6,7 @@ export const saleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getSales: builder.query({
       query: (data) => ({
-        url: `/sales?days=${data.days}`,
+        url: `/sales?days=${data.days}&userId=${data.userId}`,
       }),
     }),
     sellProduct: builder.mutation({

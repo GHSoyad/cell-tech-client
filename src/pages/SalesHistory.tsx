@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { ISaleInfo } from "../types/saleTypes";
 import moment from "moment";
 import Loader from "../components/shared/Loader";
+import { useGetUsersQuery } from "../redux/features/user/userApi";
+import { IUser } from "../types/userTypes";
+import { useAppSelector } from "../redux/hooks";
+import { selectCurrentUser } from "../redux/features/auth/authSlice";
 
 interface ITableProps {
   sno: number,
@@ -20,13 +24,19 @@ interface ITableProps {
 
 
 const SalesHistory = () => {
-  const [selectedDays, setSelectedDays] = useState(30);
+  const user = useAppSelector(selectCurrentUser);
+  const [filter, setFilter] = useState({ days: 30, userId: user?.role?.toLowerCase() === "user" ? user?._id : "" });
   const [salesData, setSalesData] = useState([]);
-  const { data, isFetching, refetch } = useGetSalesQuery({ days: selectedDays }, { refetchOnMountOrArgChange: true });
+  const { data, isFetching, refetch } = useGetSalesQuery({ days: filter?.days, userId: filter?.userId }, { refetchOnMountOrArgChange: true });
+  const { data: users } = useGetUsersQuery(undefined);
 
   const handleChange = (e: SelectChangeEvent<string>) => {
-    const days = parseInt(e.target.value);
-    setSelectedDays(days);
+    const { name, value } = e.target;
+
+    setFilter(prevData => ({
+      ...prevData,
+      [name]: name === "days" ? parseInt(value) : value,
+    }));
     refetch();
   }
 
@@ -50,6 +60,7 @@ const SalesHistory = () => {
     }
   }, [data?.content])
 
+
   return (
     <>
       <PageHeader title="Sales History" />
@@ -63,7 +74,8 @@ const SalesHistory = () => {
           <Select
             labelId="select-days"
             label="Select Days"
-            value={selectedDays.toString()}
+            name="days"
+            value={filter.days.toString()}
             onChange={handleChange}
           >
             <MenuItem value="1">Daily</MenuItem>
@@ -72,6 +84,32 @@ const SalesHistory = () => {
             <MenuItem value="365">Yearly</MenuItem>
           </Select>
         </FormControl>
+
+        {
+          user?.role?.toLowerCase() === "admin" ?
+            <FormControl
+              margin="normal"
+              size="small"
+              sx={{ mb: 3, ml: 3, width: 200 }}
+            >
+              <InputLabel id="select-user">Select User</InputLabel>
+              <Select
+                labelId="select-user"
+                label="Select User"
+                name="userId"
+                value={filter.userId}
+                onChange={handleChange}
+              >
+                {
+                  users?.content?.map((user: IUser) =>
+                    <MenuItem key={user._id} value={user._id}>{user.name}</MenuItem>
+                  )
+                }
+              </Select>
+            </FormControl>
+            :
+            null
+        }
 
         <Box component={Paper} sx={{ width: '100%', position: "relative" }}>
           {

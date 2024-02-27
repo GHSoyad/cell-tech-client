@@ -10,11 +10,14 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { useAppSelector } from "../../redux/hooks";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const drawerWidth = 240;
 
 export default function SideMenu({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -33,13 +36,21 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const menuList = [
+  const menuListAdmin = [
     { name: "Dashboard", href: "/dashboard", icon: <DashboardIcon /> },
     { name: "Products", href: "/products", icon: <PhoneAndroidIcon /> },
     { name: "Inventory", href: "/inventory", icon: <InventoryIcon /> },
     { name: "Sales History", href: "/sales-history", icon: <ReceiptIcon /> },
     { name: "Users", href: "/users", icon: <GroupsIcon /> },
   ]
+
+  const menuListUser = [
+    { name: "Dashboard", href: "/dashboard", icon: <DashboardIcon /> },
+    { name: "Products", href: "/products", icon: <PhoneAndroidIcon /> },
+    { name: "Sales History", href: "/sales-history", icon: <ReceiptIcon /> },
+  ]
+
+  const menuList = user?.role?.toLowerCase() === "admin" ? menuListAdmin : menuListUser;
 
   const drawer = (
     <div>

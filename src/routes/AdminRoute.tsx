@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/hooks';
 import { selectCurrentUser } from '../redux/features/auth/authSlice';
 
-const PrivateRoute = ({ children }: { children: ReactNode }) => {
+const AdminRoute = ({ children }: { children: ReactNode }) => {
   const user = useAppSelector(selectCurrentUser);
 
   if (user?.role?.toLowerCase() !== 'admin') {
@@ -13,4 +13,4 @@ const PrivateRoute = ({ children }: { children: ReactNode }) => {
   return children;
 };
 
-export default PrivateRoute;
+export default AdminRoute;

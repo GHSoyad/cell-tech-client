@@ -12,8 +12,8 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
+    email: "user@email.com",
+    password: "123abc!@#ABC",
   })
 
   const [loginUser, { isLoading }] = useLoginUserMutation();

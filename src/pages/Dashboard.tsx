@@ -15,6 +15,10 @@ import {
 import { Box, Card, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 import PageHeader from "../components/shared/PageHeader";
+import { useGetUsersQuery } from "../redux/features/user/userApi";
+import { IUser } from "../types/userTypes";
+import { useAppSelector } from "../redux/hooks";
+import { selectCurrentUser } from "../redux/features/auth/authSlice";
 
 ChartJS.register(
   CategoryScale,
@@ -33,12 +37,18 @@ interface IStat {
 
 
 const Dashboard = () => {
-  const [selectedDays, setSelectedDays] = useState(30);
-  const { data: statistics, isFetching, refetch } = useGetStatisticsQuery({ days: selectedDays }, { refetchOnMountOrArgChange: true });
+  const user = useAppSelector(selectCurrentUser);
+  const [filter, setFilter] = useState({ days: 30, userId: user?.role?.toLowerCase() === "user" ? user?._id : "" });
+  const { data: statistics, isFetching, refetch } = useGetStatisticsQuery({ days: filter?.days, userId: filter?.userId }, { refetchOnMountOrArgChange: true });
+  const { data: users } = useGetUsersQuery(undefined);
 
   const handleChange = (e: SelectChangeEvent<string>) => {
-    const days = parseInt(e.target.value);
-    setSelectedDays(days);
+    const { name, value } = e.target;
+
+    setFilter(prevData => ({
+      ...prevData,
+      [name]: name === "days" ? parseInt(value) : value,
+    }));
     refetch();
   }
 
@@ -91,7 +101,8 @@ const Dashboard = () => {
           <Select
             labelId="select-days"
             label="Select Days"
-            value={selectedDays.toString()}
+            name="days"
+            value={filter.days.toString()}
             onChange={handleChange}
           >
             <MenuItem value="7">Weekly</MenuItem>
@@ -99,6 +110,32 @@ const Dashboard = () => {
             <MenuItem value="365">Yearly</MenuItem>
           </Select>
         </FormControl>
+
+        {
+          user?.role?.toLowerCase() === "admin" ?
+            <FormControl
+              margin="normal"
+              size="small"
+              sx={{ mb: 3, ml: 3, width: 200 }}
+            >
+              <InputLabel id="select-user">Select User</InputLabel>
+              <Select
+                labelId="select-user"
+                label="Select User"
+                name="userId"
+                value={filter.userId}
+                onChange={handleChange}
+              >
+                {
+                  users?.content?.map((user: IUser) =>
+                    <MenuItem key={user._id} value={user._id}>{user.name}</MenuItem>
+                  )
+                }
+              </Select>
+            </FormControl>
+            :
+            null
+        }
 
         <Box sx={{ minHeight: 300, position: "relative" }}>
           {
