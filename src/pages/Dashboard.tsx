@@ -1,13 +1,10 @@
-import Loader from "../components/shared/Loader";
-import { useGetStatisticsQuery } from "../redux/features/statistics/statisticsApi";
-import _ from 'lodash';
-import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -19,27 +16,24 @@ import { useGetUsersQuery } from "../redux/features/user/userApi";
 import { IUser } from "../types/userTypes";
 import { useAppSelector } from "../redux/hooks";
 import { selectCurrentUser } from "../redux/features/auth/authSlice";
+import SalesByAmount from "../components/ui/Dashboard/SalesByAmount";
+import SalesByProduct from "../components/ui/Dashboard/SalesByProduct";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend
 );
 
-interface IStat {
-  date: string,
-  totalAmountSold: number,
-}
-
 
 const Dashboard = () => {
   const user = useAppSelector(selectCurrentUser);
   const [filter, setFilter] = useState({ days: 30, userId: user?.role?.toLowerCase() === "user" ? user?._id : "" });
-  const { data: statistics, isFetching, refetch } = useGetStatisticsQuery({ days: filter?.days, userId: filter?.userId }, { refetchOnMountOrArgChange: true });
   const { data: users } = useGetUsersQuery(undefined);
 
   const handleChange = (e: SelectChangeEvent<string>) => {
@@ -49,44 +43,7 @@ const Dashboard = () => {
       ...prevData,
       [name]: name === "days" ? parseInt(value) : value,
     }));
-    refetch();
   }
-
-  const optionsData = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      title: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          maxTicksLimit: 31
-        }
-      },
-      y: {
-        min: 0,
-        max: (Math.ceil((_.max(_.map((statistics?.content || []), 'totalAmountSold')) || 0) / 100) * 100) + 500,
-      }
-    },
-  };
-
-  const chartData = {
-    labels: (statistics?.content || []).map((stat: IStat) => stat.date),
-    datasets: [
-      {
-        data: (statistics?.content || []).map((stat: IStat) => stat.totalAmountSold),
-        borderColor: '#1976d2',
-        backgroundColor: '#1976d280',
-      }
-    ],
-  };
-
 
   return (
     <>
@@ -137,14 +94,14 @@ const Dashboard = () => {
             null
         }
 
-        <Box sx={{ minHeight: 300, position: "relative" }}>
-          {
-            isFetching &&
-            <Loader />
-          }
-          <Line options={optionsData} height={350} data={chartData} />
+        <SalesByAmount filter={filter} />
+
+        <Box sx={{ mt: 6 }}>
+          <SalesByProduct filter={filter} />
+
         </Box>
-      </Card>
+
+      </Card >
     </>
   );
 };

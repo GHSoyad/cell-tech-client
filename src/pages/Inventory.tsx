@@ -69,7 +69,7 @@ const Inventory = () => {
   return (
     <>
       <PageHeader title="Inventory" />
-      <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 }, minHeight: "calc(100vh - 188px)", position: "relative" }}>
+      <Card sx={{ borderRadius: "10px", p: { xs: 2, md: 3 }, minHeight: "calc(100vh - 178px)", position: "relative" }}>
         <Box sx={{ textAlign: "end", mb: 2 }}>
           <Button
             variant="contained"

@@ -3,7 +3,7 @@
 ### Live Website Link https://cell-tech-client.vercel.app/
 
 ## Description
-The Project is developed using ReactJS, TypeScript, NodeJS, ExpressJS, MongoDB, The system is responsive on smaller devices.
+The Project is developed using ReactJS, TypeScript, NodeJS, ExpressJS, MongoDB.
 
 #### Admin Login Details
 Email: test@email.com
